@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 
 const DRINKS = [
   {
-    name: "Peach Celsius",
+    name: "Celsius",
     caffeine: 200,
     image: "https://i.imgur.com/90TfeGW.png"
   },
   {
-    name: "Blue Razz Bang",
+    name: "Bang",
     caffeine: 300,
     image: "https://i.imgur.com/90TfeGW.png"
   },
@@ -22,7 +22,7 @@ const DRINKS = [
     image: "https://i.imgur.com/Bb9wl9P.png"
   },
   {
-    name: "White Monster",
+    name: "Monster",
     caffeine: 160,
     image: "https://i.imgur.com/7oKqXVo.png"
   },
