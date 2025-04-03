@@ -36,6 +36,7 @@ const DRINKS = [
 export default function CaffeineTracker() {
   const today = new Date().toDateString();
 
+  const [username, setUsername] = useState(() => localStorage.getItem("username") || "");
   const [history, setHistory] = useState(() => {
     const saved = localStorage.getItem("history");
     return saved ? JSON.parse(saved) : {};
@@ -44,7 +45,8 @@ export default function CaffeineTracker() {
   useEffect(() => {
     localStorage.setItem("history", JSON.stringify(history));
     localStorage.setItem("lastTrackedDate", today);
-  }, [history, today]);
+    localStorage.setItem("username", username);
+  }, [history, today, username]);
 
   useEffect(() => {
     const lastTracked = localStorage.getItem("lastTrackedDate");
@@ -57,11 +59,16 @@ export default function CaffeineTracker() {
   }, [today]);
 
   const addDrink = (drink) => {
+    if (!username) {
+      alert("Please enter your name before logging a drink.");
+      return;
+    }
     const todayLog = history[today] || [];
     const updated = {
       ...history,
       [today]: [...todayLog, {
         ...drink,
+        user: username,
         time: new Date().toLocaleTimeString()
       }]
     };
@@ -79,24 +86,46 @@ export default function CaffeineTracker() {
   };
 
   const todayLog = history[today] || [];
-  const totalCaffeine = todayLog.reduce((sum, d) => sum + d.caffeine, 0);
-  const totalDrinks = todayLog.length;
+  const totalCaffeine = todayLog.filter(d => d.user === username).reduce((sum, d) => sum + d.caffeine, 0);
+  const totalDrinks = todayLog.filter(d => d.user === username).length;
+
+  const leaderboardData = {};
+  Object.values(history).forEach(day => {
+    day.forEach(entry => {
+      leaderboardData[entry.user] = (leaderboardData[entry.user] || 0) + entry.caffeine;
+    });
+  });
+
+  const leaderboard = Object.entries(leaderboardData)
+    .sort((a, b) => b[1] - a[1])
+    .map(([user, total]) => ({ user, total }));
 
   return (
     <div className="min-h-screen bg-neutral-950 text-orange-400 p-4">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#f38402" />
+        <meta name="theme-color" content="#000000" />
       </head>
 
-      <h1 className="text-3xl font-bold mb-4">☕ Energy Tracker</h1>
+      <h1 className="text-3xl font-bold mb-4 text-orange-400">☕ Energy Tracker</h1>
+
+      <div className="mb-6">
+        <label className="block mb-2 font-semibold">Enter your name:</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="w-full sm:w-64 px-3 py-2 rounded-xl bg-neutral-800 text-orange-400 border border-neutral-600 focus:outline-none"
+          placeholder="Your name"
+        />
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {DRINKS.map((drink) => (
           <button
             key={drink.name}
             onClick={() => addDrink(drink)}
-            className="bg-neutral-800 hover:bg-neutral-700 transition rounded-2xl p-4 shadow-xl text-left"
+            className="bg-neutral-800 hover:bg-neutral-700 transition rounded-2xl p-4 shadow-xl text-left text-orange-400"
           >
             <div className="w-40 h-40 mx-auto mb-2 overflow-hidden rounded-xl">
               <img
@@ -111,7 +140,7 @@ export default function CaffeineTracker() {
         ))}
       </div>
 
-      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md mb-6">
+      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md mb-6 text-orange-400">
         <h3 className="text-2xl font-bold mb-2">📊 Today's Stats</h3>
         <p>Total Drinks: {totalDrinks}</p>
         <p>Total Caffeine: {totalCaffeine} mg</p>
@@ -124,7 +153,16 @@ export default function CaffeineTracker() {
         </button>
       </div>
 
-      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md">
+      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md text-orange-400 mb-6">
+        <h3 className="text-2xl font-bold mb-4">🏆 Leaderboard</h3>
+        {leaderboard.map(({ user, total }, index) => (
+          <div key={user} className="mb-1">
+            <span className="font-semibold">{index + 1}. {user}</span>: {total} mg
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md text-orange-400">
         <h3 className="text-2xl font-bold mb-4">📚 Drink History</h3>
 
         {Object.keys(history)
@@ -141,7 +179,7 @@ export default function CaffeineTracker() {
                 <ul className="list-disc list-inside text-sm mb-1">
                   {dayLog.map((drink, index) => (
                     <li key={index}>
-                      {drink.name} ({drink.caffeine}mg) at {drink.time}
+                      {drink.name} ({drink.caffeine}mg) by {drink.user} at {drink.time}
                     </li>
                   ))}
                 </ul>
