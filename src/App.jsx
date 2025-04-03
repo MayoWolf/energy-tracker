@@ -4,27 +4,27 @@ const DRINKS = [
   {
     name: "Celsius",
     caffeine: 200,
-    image: "https://photos.fife.usercontent.google.com/pw/AP1GczN4ynCZgi34SrLrRXE8vtPp9D9_fUBRxJ__wzKfN0n5NoIfY6uKwh29dQ=w1000-h1000-s-no-gm?authuser=0"
+    image: "https://ibb.co/k6v5FDPG"
   },
   {
     name: "Bang",
     caffeine: 300,
-    image: "https://photos.fife.usercontent.google.com/pw/AP1GczPxmw_UNyj3MI9ElzbkNTy4neD2MRqJMjGmR9Fx15_LzIf_fhNfztvxJQ=w1000-h1000-s-no-gm?authuser=0"
+    image: "https://ibb.co/XZXt82VN"
   },
   {
     name: "Red Bull",
     caffeine: 114,
-    image: "https://photos.fife.usercontent.google.com/pw/AP1GczMrK97kU9vF0USZCAA1PxRkfzgQ0Q336dIuNL8e_hnUgkmVIuvfgM8APA=w1000-h1000-s-no-gm?authuser=0"
+    image: "https://ibb.co/MyrP9PkD"
   },
   {
     name: "Yerba Mate",
     caffeine: 150,
-    image: "https://photos.fife.usercontent.google.com/pw/AP1GczNDLLCow-L2aIXEagIyPwhX9OOTQn1XvcEnkvUXlTjaI_NyrE6JyHIYSg=w1000-h1000-s-no-gm?authuser=0"
+    image: "https://ibb.co/BVBpWjyn"
   },
   {
     name: "Monster",
     caffeine: 160,
-    image: "https://photos.fife.usercontent.google.com/pw/AP1GczNJJ13BLM21TMXD0-oFjcIkcqbCwW3d2TMaHGqj-oCN-rk4FGIJ8yL9_A=w1000-h1000-s-no-gm?authuser=0"
+    image: "https://ibb.co/VphJ7ygW"
   },
 ];
 
