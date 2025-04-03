@@ -44,7 +44,6 @@ export default function CaffeineTracker() {
   useEffect(() => {
     const lastTracked = localStorage.getItem("lastTrackedDate");
     if (lastTracked && lastTracked !== today) {
-      // midnight reset: start a new empty log for today
       setHistory(prev => ({
         ...prev,
         [today]: []
@@ -124,20 +123,29 @@ export default function CaffeineTracker() {
         <h3 className="text-2xl font-bold mb-4">📚 Drink History</h3>
 
         {Object.keys(history)
-          .filter(date => date !== today)
           .sort((a, b) => new Date(b) - new Date(a))
-          .map((date) => (
-            <div key={date} className="mb-4">
-              <h4 className="text-xl font-semibold mb-2">{date}</h4>
-              <ul className="list-disc list-inside text-sm text-neutral-300">
-                {history[date].map((drink, index) => (
-                  <li key={index}>
-                    {drink.name} ({drink.caffeine}mg) at {drink.time}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          .map((date) => {
+            const dayLog = history[date];
+            const dayTotal = dayLog.reduce((sum, d) => sum + d.caffeine, 0);
+
+            return (
+              <div key={date} className="mb-6">
+                <h4 className="text-xl font-semibold mb-2">
+                  {date === today ? "📅 Today" : date}
+                </h4>
+                <ul className="list-disc list-inside text-sm text-neutral-300 mb-1">
+                  {dayLog.map((drink, index) => (
+                    <li key={index}>
+                      {drink.name} ({drink.caffeine}mg) at {drink.time}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-sm text-orange-400 font-medium">
+                  Total: {dayTotal} mg
+                </p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
