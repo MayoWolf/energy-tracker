@@ -86,7 +86,7 @@ export default function CaffeineTracker() {
     <div className="min-h-screen bg-neutral-950 text-orange-400 p-4">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#f38402" />
       </head>
 
       <h1 className="text-3xl font-bold mb-4">☕ Energy Tracker</h1>
