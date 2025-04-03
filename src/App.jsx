@@ -42,11 +42,13 @@ export default function CaffeineTracker() {
 
   const addDrink = (drink) => {
     setDrinkLog([...drinkLog, { ...drink, date: new Date().toDateString() }]);
-    const addDrink = (drink) => {
-      setDrinkLog([...drinkLog, { ...drink, date: new Date().toDateString() }]);
-      
-    };
+  };
 
+  const resetLog = () => {
+    const confirmReset = window.confirm("Are you sure you want to reset today's log?");
+    if (confirmReset) {
+      setDrinkLog([]);
+    }
   };
 
   const totalCaffeine = drinkLog.reduce((sum, d) => sum + d.caffeine, 0);
@@ -69,13 +71,12 @@ export default function CaffeineTracker() {
             className="bg-neutral-800 hover:bg-neutral-700 transition rounded-2xl p-4 shadow-xl text-left"
           >
             <div className="w-40 h-40 mx-auto mb-2 overflow-hidden rounded-xl">
-  <img
-    src={drink.image}
-    alt={drink.name}
-    className="w-full h-full object-cover"
-  />
-</div>
-
+              <img
+                src={drink.image}
+                alt={drink.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <h2 className="text-xl font-semibold">{drink.name}</h2>
             <p className="text-sm text-neutral-300">{drink.caffeine} mg caffeine</p>
           </button>
@@ -87,15 +88,13 @@ export default function CaffeineTracker() {
         <p>Total Drinks: {totalDrinks}</p>
         <p>Total Caffeine: {totalCaffeine} mg</p>
 
-
-  <button
-    onClick={resetLog}
-    className="mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-xl transition"
-  >
-    🔄 Reset Today
-  </button>
+        <button
+          onClick={resetLog}
+          className="mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-xl transition"
+        >
+          🔄 Reset Today
+        </button>
       </div>
     </div>
   );
 }
-
