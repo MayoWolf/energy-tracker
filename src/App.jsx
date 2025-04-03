@@ -83,7 +83,7 @@ export default function CaffeineTracker() {
   const totalDrinks = todayLog.length;
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white p-4">
+    <div className="min-h-screen bg-neutral-950 text-orange-400 p-4">
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
@@ -106,7 +106,7 @@ export default function CaffeineTracker() {
               />
             </div>
             <h2 className="text-xl font-semibold">{drink.name}</h2>
-            <p className="text-sm text-neutral-300">{drink.caffeine} mg caffeine</p>
+            <p className="text-sm">{drink.caffeine} mg caffeine</p>
           </button>
         ))}
       </div>
@@ -138,14 +138,14 @@ export default function CaffeineTracker() {
                 <h4 className="text-xl font-semibold mb-2">
                   {date === today ? "📅 Today" : date}
                 </h4>
-                <ul className="list-disc list-inside text-sm text-neutral-300 mb-1">
+                <ul className="list-disc list-inside text-sm mb-1">
                   {dayLog.map((drink, index) => (
                     <li key={index}>
                       {drink.name} ({drink.caffeine}mg) at {drink.time}
                     </li>
                   ))}
                 </ul>
-                <p className="text-sm text-orange-400 font-medium">
+                <p className="text-sm font-medium">
                   Total: {dayTotal} mg
                 </p>
               </div>
