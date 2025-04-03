@@ -42,6 +42,11 @@ export default function CaffeineTracker() {
 
   const addDrink = (drink) => {
     setDrinkLog([...drinkLog, { ...drink, date: new Date().toDateString() }]);
+    const addDrink = (drink) => {
+      setDrinkLog([...drinkLog, { ...drink, date: new Date().toDateString() }]);
+      
+    };
+
   };
 
   const totalCaffeine = drinkLog.reduce((sum, d) => sum + d.caffeine, 0);
@@ -81,7 +86,16 @@ export default function CaffeineTracker() {
         <h3 className="text-2xl font-bold mb-2">📊 Today's Stats</h3>
         <p>Total Drinks: {totalDrinks}</p>
         <p>Total Caffeine: {totalCaffeine} mg</p>
+
+
+  <button
+    onClick={resetLog}
+    className="mt-4 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-xl transition"
+  >
+    🔄 Reset Today
+  </button>
       </div>
     </div>
   );
 }
+
