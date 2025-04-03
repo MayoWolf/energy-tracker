@@ -26,6 +26,11 @@ const DRINKS = [
     caffeine: 160,
     image: "https://i.ibb.co/4RtNvNQQ/monster.png"
   },
+  {
+    name: "Coffee",
+    caffeine: 95,
+    image: "https://i.ibb.co/4nJW3982/black-coffee-150x150.png"
+  },
 ];
 
 export default function CaffeineTracker() {
