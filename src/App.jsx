@@ -4,27 +4,27 @@ const DRINKS = [
   {
     name: "Celsius",
     caffeine: 200,
-    image: "https://i.ibb.co/4g3KxS0F/celsius.png"
+    image: "https://i.ibb.co/1ftsC0wW/celsius.png"
   },
   {
     name: "Bang",
     caffeine: 300,
-    image: "https://i.ibb.co/nsrjCgRZ/bang.png"
+    image: "https://i.ibb.co/JhC5fbk/bang.png"
   },
   {
     name: "Red Bull",
     caffeine: 114,
-    image: "https://i.ibb.co/Fk28n84b/redbull.png"
+    image: "https://i.ibb.co/Y4vxPyrx/redbull.png"
   },
   {
     name: "Yerba Mate",
     caffeine: 150,
-    image: "https://i.ibb.co/WWfh8FkV/yerba.png"
+    image: "https://i.ibb.co/B2czdMYy/yerba.png"
   },
   {
     name: "Monster",
     caffeine: 160,
-    image: "https://i.ibb.co/BK7cXDyV/monster.png"
+    image: "https://i.ibb.co/S7Q1bRFd/monster.png"
   },
 ];
 
