@@ -29,30 +29,54 @@ const DRINKS = [
 ];
 
 export default function CaffeineTracker() {
-  const [drinkLog, setDrinkLog] = useState(() => {
-    const saved = localStorage.getItem("drinkLog");
-    const parsed = saved ? JSON.parse(saved) : [];
-    const today = new Date().toDateString();
-    return parsed.filter(entry => entry.date === today);
+  const today = new Date().toDateString();
+
+  const [history, setHistory] = useState(() => {
+    const saved = localStorage.getItem("history");
+    return saved ? JSON.parse(saved) : {};
   });
 
   useEffect(() => {
-    localStorage.setItem("drinkLog", JSON.stringify(drinkLog));
-  }, [drinkLog]);
+    localStorage.setItem("history", JSON.stringify(history));
+    localStorage.setItem("lastTrackedDate", today);
+  }, [history, today]);
+
+  useEffect(() => {
+    const lastTracked = localStorage.getItem("lastTrackedDate");
+    if (lastTracked && lastTracked !== today) {
+      // midnight reset: start a new empty log for today
+      setHistory(prev => ({
+        ...prev,
+        [today]: []
+      }));
+    }
+  }, [today]);
 
   const addDrink = (drink) => {
-    setDrinkLog([...drinkLog, { ...drink, date: new Date().toDateString() }]);
+    const todayLog = history[today] || [];
+    const updated = {
+      ...history,
+      [today]: [...todayLog, {
+        ...drink,
+        time: new Date().toLocaleTimeString()
+      }]
+    };
+    setHistory(updated);
   };
 
   const resetLog = () => {
     const confirmReset = window.confirm("Are you sure you want to reset today's log?");
     if (confirmReset) {
-      setDrinkLog([]);
+      setHistory(prev => ({
+        ...prev,
+        [today]: []
+      }));
     }
   };
 
-  const totalCaffeine = drinkLog.reduce((sum, d) => sum + d.caffeine, 0);
-  const totalDrinks = drinkLog.length;
+  const todayLog = history[today] || [];
+  const totalCaffeine = todayLog.reduce((sum, d) => sum + d.caffeine, 0);
+  const totalDrinks = todayLog.length;
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white p-4">
@@ -83,7 +107,7 @@ export default function CaffeineTracker() {
         ))}
       </div>
 
-      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md">
+      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md mb-6">
         <h3 className="text-2xl font-bold mb-2">📊 Today's Stats</h3>
         <p>Total Drinks: {totalDrinks}</p>
         <p>Total Caffeine: {totalCaffeine} mg</p>
@@ -94,6 +118,26 @@ export default function CaffeineTracker() {
         >
           🔄 Reset Today
         </button>
+      </div>
+
+      <div className="bg-neutral-900 p-4 rounded-2xl shadow-md">
+        <h3 className="text-2xl font-bold mb-4">📚 Drink History</h3>
+
+        {Object.keys(history)
+          .filter(date => date !== today)
+          .sort((a, b) => new Date(b) - new Date(a))
+          .map((date) => (
+            <div key={date} className="mb-4">
+              <h4 className="text-xl font-semibold mb-2">{date}</h4>
+              <ul className="list-disc list-inside text-sm text-neutral-300">
+                {history[date].map((drink, index) => (
+                  <li key={index}>
+                    {drink.name} ({drink.caffeine}mg) at {drink.time}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
       </div>
     </div>
   );
